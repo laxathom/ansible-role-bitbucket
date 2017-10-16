@@ -1,0 +1,19 @@
+{# Unit file based on: https://github.com/bparsons/atlassian-systemd #}
+[Unit]
+Description=Bitbucket the Git solution for professional teams
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+User={{ bitbucket_user }}
+Group={{ bitbucket_group }}
+
+Environment="JAVA_HOME={{ bitbucket_java_home }}" "BITBUCKET_HOME={{ bitbucket_workdir }}
+
+PIDFile={{ bitbucket_datadir }}/{{ bitbucket_version }}/work/bitbucket.pid
+ExecStart={{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/start-bitbucket.sh
+ExecStop={{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/stop-bitbucket.sh
+
+[Install]
+WantedBy=multi-user.target

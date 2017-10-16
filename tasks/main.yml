@@ -1,0 +1,106 @@
+---
+- name: Install Requirements
+  package:
+    name: "{{ item }}"
+    state: installed
+  when: bitbucket_java_install
+  with_items:
+    - "java-{{ bitbucket_java_version }}-openjdk"
+
+- name: Create system group
+  group:
+    name: "{{ bitbucket_group }}"
+  tags:
+    - bitbucket
+    - bitbucket-account
+
+- name: Create system user
+  user:
+    name: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    home: "{{ bitbucket_datadir }}"
+  tags:
+    - bitbucket
+    - bitbucket-account
+
+- name: Set-up data-dir
+  file:
+    name: "{{ bitbucket_datadir }}/{{ bitbucket_version }}"
+    owner: "{{ bitbucket_user  }}"
+    group: "{{ bitbucket_group }}"
+    state: directory
+  tags:
+    - bitbucket
+    - bitbucket-update
+
+- name: Install Bitbucket Server
+  unarchive:
+    src: "{{ bitbucket_url }}"
+    dest: "{{ bitbucket_datadir }}/{{ bitbucket_version }}"
+    owner: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    extra_opts: "--strip-components=1"
+    remote_src: yes
+    creates: "{{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/start-bitbucket.sh"
+  notify: Restart bitbucket
+  tags:
+    - bitbucket
+    - bibucket-update
+
+- name: Set ownership on data-dir
+  file:
+    path: "{{ bitbucket_datadir }}"
+    owner: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    recurse: yes
+    state: directory
+  tags:
+    - bitbucket
+    - bibucket-update
+
+- name: Deploy config files
+  template:
+    src: server.xml.j2
+    dest: "{{ bitbucket_datadir }}/{{ bitbucket_version }}/conf/server.xml"
+    owner: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0664"
+  notify: Restart bitbucket
+  tags: 
+    - bitbucket
+    - bibucket-config
+    - bibucket-update
+
+- name: Deploy Bitbucket properties
+  template:
+    src: bitbucket.properties.j2
+    dest: "{{ bitbucket_datadir }}/{{ bitbucket_version }}/conf/bitbucket.properties"
+    owner: "{{ bitbucket_user }}"
+    group: "{{ bitbucket_group }}"
+    mode: "0664"
+  notify: Restart bitbucket
+  tags:
+    - bitbucket
+    - bitbucket-config
+    - bitbucket-properties
+    - bitbucket-update
+
+- name: Deploy systemd unit file
+  template:
+    src: bitbucket.service.j2
+    dest: /usr/lib/systemd/system/bitbucket.service
+    owner: root
+    group: root
+#  notify: Reload systemd and bitbucket
+  tags:
+    - bitbucket
+    - bitbucket-update
+    - bitbucket-service
+
+- name: Enable service
+  service:
+    name: "bitbucket"
+    enabled: "yes"
+  notify: Restart bitbucket
+  tags: 
+    - bitbucket

@@ -1,1 +1,2 @@
+*.swp
 tests/roles/provision_docker

@@ -75,7 +75,7 @@
 - name: Deploy Bitbucket properties
   template:
     src: bitbucket.properties.j2
-    dest: "{{ bitbucket_datadir }}/{{ bitbucket_version }}/conf/bitbucket.properties"
+    dest: "{{ bitbucket_workdir }}/shared/bitbucket.properties"
     owner: "{{ bitbucket_user }}"
     group: "{{ bitbucket_group }}"
     mode: "0664"
@@ -92,7 +92,7 @@
     dest: /usr/lib/systemd/system/bitbucket.service
     owner: root
     group: root
-#  notify: Reload systemd and bitbucket
+  notify: Reload systemd and bitbucket
   tags:
     - bitbucket
     - bitbucket-update

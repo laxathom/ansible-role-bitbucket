@@ -1,11 +1,9 @@
 ---
-- name: Install Requirements
-  package:
-    name: "{{ item }}"
-    state: installed
-  when: bitbucket_java_install
-  with_items:
-    - "java-{{ bitbucket_java_version }}-openjdk"
+- include: "{{ ansible_os_family }}-setup.yml"
+  tags:
+    - bitbucket
+    - bitbucket-packages
+    - bitbucket-update
 
 - name: Create system group
   group:

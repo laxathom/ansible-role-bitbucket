@@ -1,0 +1,35 @@
+---
+- name: Install common dependencies
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - git
+  tags:
+    - bitbucket
+    - bitbucket-update
+
+- name: Install JAVA requirements
+  package:
+    name: "{{ item }}"
+    state: installed
+  when: bitbucket_java_install
+  with_items:
+    - "java-{{ bitbucket_java_version }}-openjdk"
+  tags:
+    - bitbucket
+    - bitbucket-update
+
+- shell: jrunscript -e 'java.lang.System.out.println(java.lang.System.getProperty("java.home"));'
+  register: java_home
+  when: bitbucket_java_install
+  tags:
+    - bitbucket
+    - bitbucket-update
+
+- set_fact:
+    bitbucket_java_home: java_home
+  when: bitbucket_java_install
+  tags:
+    - bitbucket
+    - bitbucket-upate

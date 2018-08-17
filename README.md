@@ -1,7 +1,7 @@
 Bitbucket
 =========
 
-A Role to install and manage Bitbucket Server configuration on rhel/CentOS servers.
+A Role to install and manage Bitbucket Server configuration on rhel/CentOS servers atm.
 
 Requirements
 ------------

@@ -17,7 +17,16 @@
                    useBodyEncodingForURI="true"
                    redirectPort="{{ bitbucket_connector_redirect_port }}"
                    compression="on"
-                   compressableMimeType="text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/x-javascript"{% if bitbucket_proxy_name and bitbucket_scheme in ["http", "https"] %} proxyName="{{ bitbucket_proxy_name }}"{% if bitbucket_scheme == "http" %} scheme="http" proxyPort="80"{% elif bitbucket_scheme == "https" %} scheme="https" proxyPort="443" secure="true"{% endif %}{% endif %}/>
+                   compressableMimeType="text/html,text/xml,text/plain,text/css,application/json,application/javascript,application/x-javascript"
+{% if bitbucket_proxy_name is defined and bitbucket_scheme in ["http", "https"] %} 
+                   proxyName="{{ bitbucket_proxy_name }}"
+{% if bitbucket_scheme == "http" %}
+                   scheme="http"
+                   proxyPort="80"
+{% elif bitbucket_scheme == "https" %}
+                   scheme="https"
+                   proxyPort="443"
+                   secure="true"{% endif %}{% endif %}/>
         <Engine name="Catalina" defaultHost="{{ bitbucket_hostname }}">
             <Realm className="org.apache.catalina.realm.LockOutRealm">
                 <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
@@ -29,7 +38,7 @@
                   xmlValidation="false"
                   xmlNamespaceAware="false">
                 <Context docBase="${catalina.home}/atlassian-bitbucket"
-                         path={{ bitbucket_context_path or '' }}
+                         path="{{ bitbucket_context_path or '' }}"
                          reloadable="false"
                          useHttpOnly="true"/>
             </Host>

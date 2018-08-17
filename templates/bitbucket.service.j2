@@ -9,9 +9,9 @@ Type=forking
 User={{ bitbucket_user }}
 Group={{ bitbucket_group }}
 
-Environment="JAVA_HOME={{ bitbucket_java_home }}" "BITBUCKET_HOME={{ bitbucket_workdir }}
+Environment="JAVA_HOME={{ bitbucket_java_home }}" "BITBUCKET_HOME={{ bitbucket_workdir }}"
 
-PIDFile={{ bitbucket_datadir }}/{{ bitbucket_version }}/work/bitbucket.pid
+PIDFile={{ bitbucket_datadir }}/{{ bitbucket_version }}/work/catalina.pid
 ExecStart={{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/start-bitbucket.sh
 ExecStop={{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/stop-bitbucket.sh
 

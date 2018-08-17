@@ -47,13 +47,16 @@
     - bitbucket
     - bibucket-update
 
-- name: Set ownership on data-dir
+- name: Set ownership on related directories
   file:
-    path: "{{ bitbucket_datadir }}"
+    path: "{{ item }}"
     owner: "{{ bitbucket_user }}"
     group: "{{ bitbucket_group }}"
     recurse: yes
     state: directory
+  with_items:
+    - "{{ bitbucket_datadir }}"
+    - "{{ bitbucket_workdir }}"
   tags:
     - bitbucket
     - bibucket-update

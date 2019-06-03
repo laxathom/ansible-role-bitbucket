@@ -1,5 +1,6 @@
 galaxy_info:
   author: Xavier Lamien
+  role_name: bitbucket
   description: Ansible role to install and manage Bitbucket Server
   company: iFeelSmart
 

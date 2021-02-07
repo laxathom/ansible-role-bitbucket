@@ -16,6 +16,7 @@
   when: bitbucket_java_install
   with_items:
     - "java-{{ bitbucket_java_version }}-openjdk"
+    - "java-{{ bitbucket_java_version }}-openjdk-devel"
   tags:
     - bitbucket
     - bitbucket-update
@@ -26,10 +27,12 @@
   tags:
     - bitbucket
     - bitbucket-update
+    - bitbucket-config
 
 - set_fact:
-    bitbucket_java_home: java_home
+    bitbucket_java_home: '{{ java_home.stdout }}'
   when: bitbucket_java_install
   tags:
     - bitbucket
     - bitbucket-upate
+    - bitbucket-config

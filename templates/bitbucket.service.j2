@@ -5,13 +5,13 @@ After=syslog.target network.target
 
 [Service]
 Type=forking
-
+TimeoutSec=60
 User={{ bitbucket_user }}
 Group={{ bitbucket_group }}
 
 Environment="JAVA_HOME={{ bitbucket_java_home }}" "BITBUCKET_HOME={{ bitbucket_workdir }}"
 
-PIDFile={{ bitbucket_datadir }}/{{ bitbucket_version }}/work/catalina.pid
+PIDFile={{ bitbucket_workdir }}/log/bitbucket.pid
 ExecStart={{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/start-bitbucket.sh
 ExecStop={{ bitbucket_datadir }}/{{ bitbucket_version }}/bin/stop-bitbucket.sh
 

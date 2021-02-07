@@ -43,7 +43,7 @@
   notify: Restart bitbucket
   tags:
     - bitbucket
-    - bibucket-update
+    - bitbucket-update
 
 - name: Set ownership on related directories
   file:
@@ -57,20 +57,19 @@
     - "{{ bitbucket_workdir }}"
   tags:
     - bitbucket
-    - bibucket-update
+    - bitbucket-update
 
-- name: Deploy config files
-  template:
-    src: server.xml.j2
-    dest: "{{ bitbucket_datadir }}/{{ bitbucket_version }}/conf/server.xml"
+- name: Create shared directory
+  file:
+    path: "{{ bitbucket_workdir }}/shared"
+    state: directory
     owner: "{{ bitbucket_user }}"
     group: "{{ bitbucket_group }}"
-    mode: "0664"
-  notify: Restart bitbucket
-  tags: 
+  tags:
     - bitbucket
-    - bibucket-config
-    - bibucket-update
+    - bitbucket-config
+    - bitbucket-properties
+    - bitbucket-update
 
 - name: Deploy Bitbucket properties
   template:
@@ -96,6 +95,7 @@
   tags:
     - bitbucket
     - bitbucket-update
+    - bitbucket-config
     - bitbucket-service
 
 - name: Enable service

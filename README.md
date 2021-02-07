@@ -38,17 +38,6 @@ Define bitbucket server user and workspace. `_datadir` locate where bitbucket wi
 
 Define default download url. This variable can be overwrite if you manage your own package repository internally.
 
-    bitbucket_hostname
-    bitbucket_server_port
-    bitbucket_connector_port
-    bitbucket_connector_redirect_port
-    bitbucket_connection_timeout
-    bitbucket_context_path
-    bitbucket_proxy_name
-    bitbucket_scheme
-
-Bitbucket Server comes with a pre-configured servlet container (Apache Tomcat). Thoses variables allow you to update its configuration to match with your infrastructure requirements.
-
     bitbuckte_db_driver
     bitbucket_db_uri
     bitbucket_db_user
@@ -75,11 +64,15 @@ Here's an example playbook with few variables:
 - hosts: servers
   vars:
     bitbucket_java_install: true
-    bitbucket_version: "5.3.2"
+    bitbucket_version: "7.10.0"
     bitbuckte_db_driver: "org.postgresql.Driver"
     bitbucket_db_uri: "jdbc:postgresql://db01.domain.tld/bitbucket"
     bitbucket_db_user: "bitbucket"
     bitbucket_db_passwd: "mysuperduperpassword"
+    bitbucket_properties:
+        server.secure: 'true'
+        server.scheme: https
+        server.context-path: /
 
   roles:
      - name: bitbucket

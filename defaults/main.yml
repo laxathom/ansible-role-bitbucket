@@ -8,21 +8,14 @@ bitbucket_user: "bitbucket"
 bitbucket_datadir: "/var/lib/bitbucket"
 bitbucket_workdir: "/srv/bitbucket"
 
-bitbucket_version: "4.14.9"
+bitbucket_version: "7.10.0"
 bitbucket_archive: "atlassian-bitbucket-{{ bitbucket_version }}.tar.gz"
 bitbucket_url: "https://downloads.atlassian.com/software/stash/downloads/{{ bitbucket_archive }}"
 
 bitbucket_hostname: "localhost"
-bitbucket_server_port: "8006"
-bitbucket_connector_port: "7990"
-bitbucket_connector_redirect_port: "8443"
-bitbucket_connection_timeout: "20000"
-bitbucket_context_path: "~"
 bitbucket_jvm_minimum_memory: "512m"
 bitbucket_jvm_maximum_memory: "1024m"
 bitbucket_jvm_support_recommended_args: "-Datlassian.plugins.enable.wait=300"
-bitbucket_proxy_name: "~"
-bitbucket_scheme: "~"
 
 bitbuckte_db_driver: "org.h2.Driver"
 bitbucket_db_uri: "jdbc:h2:${bitbucket.shared.home}/data/db;MVCC=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;TRACE_LEVEL_FILE=4"
@@ -31,6 +24,14 @@ bitbucket_db_passwd: ""
 
 bitbucket_properties: {}
 # Examples:
+#    server.port: 7990
+#    server.secure: 'true'
+#    server.scheme: https
+#    server.proxy-port: 443
+#    server.context-path: /
+#    server.proxy-name: '{{ bitbucket_hostname }}'
+#    server.session.cookie.http-only: 'true'
+#    server.connection.timeout: 20000
 #    throttle.resource.scm-command: 25
 #    throttle.resource.scm-command.timeout: 2
 #    throttle.resource.scm-hosting: 1.5*${scaling.concurrency}
